@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-label="FESTIVAL placeholder">
+  <defs>
+    <linearGradient id="g-festival-3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#g-festival-3)"/>
+  <path d="M0 330 Q 200 250 400 330 T 800 330 V 450 H 0 Z" fill="#ffffff" opacity="0.10"/><path d="M0 380 Q 200 300 400 380 T 800 380 V 450 H 0 Z" fill="#ffffff" opacity="0.08"/>
+  <text x="50%" y="50%" dy="0.1em" text-anchor="middle" fill="#ffffff"
+        font-family="ui-sans-serif, system-ui, sans-serif" font-size="58" font-weight="700"
+        letter-spacing="6" opacity="0.95">FESTIVAL</text>
+</svg>
