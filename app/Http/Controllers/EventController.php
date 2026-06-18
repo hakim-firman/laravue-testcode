@@ -38,6 +38,19 @@ class EventController extends Controller
         ]);
     }
 
+    /**
+     * Date-grouped timeline browser (Visual Two). Shares the JSON `data`
+     * endpoint and filters; the timeline groups client-side by start date.
+     */
+    public function visualTwo(Request $request): Response
+    {
+        return Inertia::render('Events/VisualTwo', [
+            'types' => self::TYPES,
+            'statuses' => self::STATUSES,
+            'filters' => $this->currentFilters($request),
+        ]);
+    }
+
     public function data(Request $request): JsonResponse
     {
         [$events, $stats] = $this->loadListing($request);
@@ -55,8 +68,17 @@ class EventController extends Controller
     {
         $event->load('user', 'images');
 
+        // Attendees are mapped to name + status only; emails never reach the client.
+        $attendees = $event->attendees()
+            ->latest()
+            ->get(['id', 'name', 'status'])
+            ->map(fn ($a) => ['name' => $a->name, 'status' => $a->status])
+            ->values();
+
         return Inertia::render('Events/Show', [
             'event' => $event,
+            'attendees' => $attendees,
+            'canRegister' => ! $event->isRegistrationClosed(),
         ]);
     }
 

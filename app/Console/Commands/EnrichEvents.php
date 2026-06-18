@@ -119,11 +119,10 @@ class EnrichEvents extends Command
             foreach ($events as $event) {
                 $resolved = CityResolver::resolve((float) $event->latitude, (float) $event->longitude);
 
-                DB::table('events')->where('id', $event->id)->update([
-                    'geocoded_address' => $resolved['address'],
-                    'geocoded_city' => $resolved['city'],
-                    'geocoded_country' => $resolved['country'],
-                ]);
+                $event->geocoded_address = $resolved['address'];
+                $event->geocoded_city = $resolved['city'];
+                $event->geocoded_country = $resolved['country'];
+                $event->save();
 
                 $bar->advance();
             }

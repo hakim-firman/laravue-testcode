@@ -39,4 +39,28 @@ class Event extends Model
     {
         return $this->hasMany(EventImage::class)->orderBy('sort_order');
     }
+
+    /** @return HasMany<Attendee, $this> */
+    public function attendees(): HasMany
+    {
+        return $this->hasMany(Attendee::class);
+    }
+
+    /**
+     * Event start as a unix timestamp. Prefers the scheduled start in the
+     * payload, falling back to created_time (same convention as the listing).
+     */
+    public function startsAtTimestamp(): int
+    {
+        $scheduled = $this->payload['schedule']['starts_at'] ?? null;
+
+        return (int) ($scheduled ?? $this->created_time ?? 0);
+    }
+
+    /** Registration is closed once the event is cancelled or has started. */
+    public function isRegistrationClosed(): bool
+    {
+        return $this->status === 'cancelled'
+            || $this->startsAtTimestamp() <= now()->timestamp;
+    }
 }
